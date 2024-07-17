@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 21:03:27 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/17 16:11:50 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:17:08 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,20 @@ static char	*initialize(char *buffer, int index, char *line)
 	return (line);
 }
 
-char	*get_next_line(int fd, int rv, int index, char *line)
+static int	ft_index(char *buffer, int index)
 {
-	static char	buffer[BUFFER_SIZE + 1];
-
 	while (buffer[index] != '\n' && buffer[index] != '\0')
 		index++;
 	if (buffer[index] == '\0')
 		index = -1;
+	return (index);
+}
+
+char	*get_next_line(int fd, int rv, int index, char *line)
+{
+	static char	buffer[BUFFER_SIZE + 1];
+
+	index = ft_index(buffer, 0);
 	line = initialize(buffer, index, NULL);
 	if (line == NULL)
 		return (NULL);
@@ -100,11 +106,7 @@ char	*get_next_line(int fd, int rv, int index, char *line)
 			break ;
 		if (rv < (int)ft_strlen(buffer))
 			buffer[rv++] = '\0';
-		index = 0;
-		while (buffer[index] != '\n' && buffer[index] != '\0')
-			index++;
-		if (buffer[index] == '\0')
-			index = -1;
+		index = ft_index(buffer, 0);
 		line = ft_strjoin(line, buffer);
 		if (line == NULL)
 			return (check_rv(rv, buffer, line));
