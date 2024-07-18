@@ -1,35 +1,31 @@
-NAME = minirt
-MLX42 = ./MLX42/build/libmlx42.a
-LIBFT = ./LIBFT/libft.a
-SRC = main.c
-OBJ = ${SRC:.c=.o}
-LIB = -L ./MLX42/build -L ./LIBFT -lmlx42 -lft -ldl -lglfw -pthread -lm
-INC = -I minirt.h -I ./MLX42/include -I ./LIBFT
-FLAG = -Wextra -Wall -Werror
+NAME = rayray
+LIBMLX_PATH = ./MLX42
+LIBMLX = $(LIBMLX_PATH)/build/libmlx42.a
+CFLAGS = -Wall -Wextra -Werror -Wunreachable-code -Ofast -lm
+HEADERS = -I ./include -I $(LIBMLX_PATH)/include/ -I "/home/r2d2/.brew/opt/glfw/include"
+LIBS = $(LIBMLX) -L/home/r2d2/.brew/lib/ -ldl -lglfw -pthread -lm
+SRCS = main.c render.c
+OBJS = $(SRCS:.c=.o)
+RM = rm -f
 
-all: ${NAME}
+all: libmlx $(NAME)
 
-${NAME}: ${MLX42} ${LIBFT} ${OBJ} 
-	@cc ${FLAG} -o ${NAME} ${OBJ} ${INC} ${LIB}
+libmlx:
+	@cmake $(LIBMLX_PATH) -B $(LIBMLX_PATH)/build && make -C $(LIBMLX_PATH)/build -j4
 
-${MLX42}:
-	@make -C ./MLX42/build
+$(NAME): $(LIBMLX) $(SRCS)
+	cc $(CFLAGS) $(HEADERS) $(SRCS) $(LIBS) -o $(NAME)
 
-${LIBFT}:
-	@make -C ./LIBFT
-
-${OBJ}: ${SRC}
-	@cc ${FLAG} -c ${SRC} ${INC}
+%.o: %.c
+	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
 clean:
-	@rm -rf ${OBJ}
-	@make clean -C ./LIBFT
+	@rm -rf $(OBJS)
+	@rm -rf $(LIBMLX_PATH)/build
 
 fclean: clean
-	@rm -rf ${NAME}
-	@rm -rf ${MLX42}
-	@rm -rf ${LIBFT}
+	@rm -rf $(NAME)
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all clean fclean re libmlx
