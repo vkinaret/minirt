@@ -1,56 +1,45 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/17 15:07:45 by vkinaret         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "render.h"
 
-#include "minirt.h"
+int main() {
+    mlx_t* mlx_ptr;
+    mlx_image_t* img;
+    uint32_t sphere_color = 0x0000FF;
+    uint32_t cylinder_color = 0xFFFFFF;
 
-/*static void	exit_window(mlx_key_data_t keydata, void *ptr)
-{
-    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
-		mlx_close_window(ptr);
-		return ;
-	}
-}*/
+    // Initialize mlx
+    mlx_ptr = mlx_init(800, 600, "3D Sphere", false);
+    if (!mlx_ptr) {
+        return 1;
+    }
 
-static int	check_extension(char *arg, int i)
-{
-	while (arg[i])
-		i++;
-	if (i > 3 && arg[i - 1] == 't' && arg[i - 2] == 'r' && arg[i - 3] == '.')
-		return (0);
-	return (1);
-}
+    // Create a new image
+    img = mlx_new_image(mlx_ptr, 800, 600);
+    if (!img) {
+        mlx_terminate(mlx_ptr);
+        return 1;
+    }
 
-int main(int argc, char **argv)
-{	
-	//ERROR CHECK
-	if (argc != 2)
-		return (printf("Error\nThis program takes one argument!\n"));
-	if (check_extension(argv[1], 0))
-		return (printf("Error\nThe argument must be in .rt format.\n"));
-	
-	//PARSING
-	/*if (parse_file(argv[1], NULL, NULL))
-		return (1);*/
-	
-	//WINDOW MANAGEMENT
-	/*mlx_t	*mlx;
-	int32_t	width = 50;
-	int32_t	height = 50;
-	mlx = mlx_init(32 * width, 32 * height, "minirt", true);
-	if (mlx == NULL)
-		return (printf("mlx init failed"));
-	mlx_key_hook(mlx, (mlx_keyfunc)exit_window, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);*/
-    return (0);
+    // Light source position
+    int light_x = -10000;
+    int light_y = 0;
+    int light_z = -20000;
+
+    // Camera parameters
+    float aspect_ratio = 800.0 / 600.0; // Width / Height
+    float fov = 60.0; // Field of view in degrees
+
+    render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov);
+    render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov);
+
+    // Display the image on the window
+    mlx_image_to_window(mlx_ptr, img, 0, 0);
+
+    // Enter the mlx event loop
+    mlx_loop(mlx_ptr);
+
+    // Cleanup (although mlx_loop should not return in normal operation)
+    mlx_delete_image(mlx_ptr, img);
+    mlx_terminate(mlx_ptr);
+
+    return 0;
 }
