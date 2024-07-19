@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/17 15:12:44 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/19 03:28:06 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,22 @@
 #include <stdlib.h> //for malloc, free and exit
 #include <string.h> //for strerror
 #include <errno.h> //for errno
+
+enum    e_error
+{
+    SUCCESS = 0,
+    ARGUMENT_COUNT,
+    FILE_FORMAT,
+    WRONG_ID,
+    EMPTY_FILE,
+    DUPLICATE,
+    NEWLINE,
+    RATIO,
+    COLOR,
+    COORDINATES,
+    VECTOR,
+    FOV
+};
 
 typedef struct  s_object
 {
@@ -44,6 +60,15 @@ typedef struct  s_scene
 }               t_scene;
 
 //PARSING
-//int	parse_file(char *argv, t_list *list, t_list *new_node);
+int	parse_file(char *argv, t_list *list, t_list *new_node);
+int parse_ambient(char *line);
+int parse_camera(char *line);
+int parse_light(char *line);
+int parse_plane(char *line);
+int parse_sphere(char *line);
+int parse_cylinder(char *line);
+
+//ERROR
+int print_error(int err_code);
 
 #endif

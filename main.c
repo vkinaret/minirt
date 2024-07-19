@@ -6,11 +6,14 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/17 15:07:45 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/19 01:07:22 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+//INTERFACE
+//implement control of translation, rotation and so on via terminal?
 
 /*static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
@@ -34,13 +37,13 @@ int main(int argc, char **argv)
 {	
 	//ERROR CHECK
 	if (argc != 2)
-		return (printf("Error\nThis program takes one argument!\n"));
+		return (print_error(ARGUMENT_COUNT));
 	if (check_extension(argv[1], 0))
-		return (printf("Error\nThe argument must be in .rt format.\n"));
+		return (print_error(FILE_FORMAT));
 	
 	//PARSING
-	/*if (parse_file(argv[1], NULL, NULL))
-		return (1);*/
+	if (parse_file(argv[1], NULL, NULL))
+		return (1);
 	
 	//WINDOW MANAGEMENT
 	/*mlx_t	*mlx;
