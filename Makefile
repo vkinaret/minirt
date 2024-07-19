@@ -1,7 +1,7 @@
 NAME = minirt
 MLX42 = ./MLX42/build/libmlx42.a
 LIBFT = ./LIBFT/libft.a
-SRC = main.c error.c parse.c parse_ambient.c parse_camera.c parse_light.c parse_cylinder.c parse_sphere.c parse_plane.c
+SRC = main.c error.c parse.c parse_ambient.c parse_camera.c parse_light.c parse_cylinder.c parse_sphere.c parse_plane.c render.c
 OBJ = ${SRC:.c=.o}
 LIB = -L ./MLX42/build -L ./LIBFT -lmlx42 -lft -ldl -lglfw -pthread -lm
 INC = -I minirt.h -I ./MLX42/include -I ./LIBFT

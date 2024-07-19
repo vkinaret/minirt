@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 01:07:22 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:01:29 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,37 @@
 //INTERFACE
 //implement control of translation, rotation and so on via terminal?
 
-/*static void	exit_window(mlx_key_data_t keydata, void *ptr)
+
+//SAFA'S COLOR CALC: should return uint32_t
+/*static unsigned int	calculate_color(int iterations)
+{
+	unsigned int	color;
+	double			t;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	if (iterations < MAX_ITERATIONS)
+	{
+		t = (double)iterations / MAX_ITERATIONS;
+		r = (unsigned char)(255 * t);
+		g = (unsigned char)(255 * t);
+		b = (unsigned char)(128 * (1 - t));
+		color = (r << 28) | (g << 16) | b;
+	}
+	else
+		color = 0x000764;
+	return (color);
+}*/
+
+static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(ptr);
 		return ;
 	}
-}*/
+}
 
 static int	check_extension(char *arg, int i)
 {
@@ -46,14 +69,31 @@ int main(int argc, char **argv)
 		return (1);
 	
 	//WINDOW MANAGEMENT
-	/*mlx_t	*mlx;
-	int32_t	width = 50;
-	int32_t	height = 50;
-	mlx = mlx_init(32 * width, 32 * height, "minirt", true);
+	mlx_t	*mlx;
+	mlx_image_t* img;
+    uint32_t sphere_color = 0x00FFFF;
+	
+	mlx = mlx_init(800, 600, "minirt", true);
 	if (mlx == NULL)
 		return (printf("mlx init failed"));
+
+	img = mlx_new_image(mlx, 800, 600);
+    if (!img) 
+	{
+        mlx_terminate(mlx);
+        return (1);
+    }
+
+	int light_x = 0;
+    int light_y = 0;
+    int light_z = -20000;
+	float aspect_ratio = 800.0 / 600.0; // Width / Height
+    float fov = 60.0; // Field of view in degrees
+	render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov);
+	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_key_hook(mlx, (mlx_keyfunc)exit_window, mlx);
 	mlx_loop(mlx);
-	mlx_terminate(mlx);*/
+	mlx_delete_image(mlx, img);
+	mlx_terminate(mlx);
     return (0);
 }

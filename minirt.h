@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 03:28:06 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:44:35 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 #include <stdlib.h> //for malloc, free and exit
 #include <string.h> //for strerror
 #include <errno.h> //for errno
+#include <math.h> //for math functions
+#include <stdint.h> //for uint32
+
+#define PI 3.14159265
 
 enum    e_error
 {
@@ -70,5 +74,10 @@ int parse_cylinder(char *line);
 
 //ERROR
 int print_error(int err_code);
+
+//RENDER
+uint32_t    calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z);
+void        render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov);
+
 
 #endif
