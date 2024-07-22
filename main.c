@@ -3,7 +3,7 @@
 int main() {
     mlx_t* mlx_ptr;
     mlx_image_t* img;
-    uint32_t sphere_color = 0x0000FF;
+    uint32_t sphere_color = 0xFFFFF;
     uint32_t cylinder_color = 0xFFFFFF;
 
     // Initialize mlx
@@ -26,11 +26,11 @@ int main() {
 
     // Camera parameters
     float aspect_ratio = 800.0 / 600.0; // Width / Height
-    float fov = 60.0; // Field of view in degrees
+    float fov = 100.0; // Field of view in degrees
 
     render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov);
     render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov);
-
+    
     // Display the image on the window
     mlx_image_to_window(mlx_ptr, img, 0, 0);
 
