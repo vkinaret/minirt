@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:31:38 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 03:38:08 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:43:27 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void print_list(t_list *list)
     t_list *temp;
 
     temp = list;
+	printf("Printing list...\n");
     while (temp)
     {
         printf("%s", (char *)temp->content);
@@ -83,7 +84,7 @@ static int parse_list(t_list *list)
     return (0);
 }
 
-int parse_file(char *argv, t_list *list, t_list *new_node)
+t_list *parse_file(char *argv, t_list *list, t_list *new_node)
 {
     int fd;
     char *line;
@@ -103,10 +104,10 @@ int parse_file(char *argv, t_list *list, t_list *new_node)
     {
         ft_lstclear(&list, free);
 	    close(fd);
-        return (1);
+        return (NULL);
     }
-    print_list(list);
+	print_list(list);
     ft_lstclear(&list, free);
-	close(fd);
-    return (0);
+    close(fd);
+    return (list);
 }

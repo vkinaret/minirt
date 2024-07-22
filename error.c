@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:00:00 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 03:31:10 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:28:24 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int print_error(int err_code)
     if (err_code == NEWLINE)
         printf("The last attribute must be followed by a newline.\n");
     if (err_code == COORDINATES)
-        printf("\n");
+        printf("The coordinates must be in x,y,z format.\n");
     if (err_code == VECTOR)
-        printf("\n");
+        printf("The vector values have a range between -1 and 1.\n");
     if (err_code == FOV)
-        printf("\n");
+        printf("The field of view has a range between 0 and 180.\n");
     return (err_code);
 }

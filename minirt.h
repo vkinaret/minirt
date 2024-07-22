@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 19:44:35 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:24:39 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ typedef struct  s_scene
 }               t_scene;
 
 //PARSING
-int	parse_file(char *argv, t_list *list, t_list *new_node);
-int parse_ambient(char *line);
-int parse_camera(char *line);
-int parse_light(char *line);
-int parse_plane(char *line);
-int parse_sphere(char *line);
-int parse_cylinder(char *line);
+t_list  *parse_file(char *argv, t_list *list, t_list *new_node);
+int     parse_ambient(char *line);
+int     parse_camera(char *line);
+int     parse_light(char *line);
+int     parse_plane(char *line);
+int     parse_sphere(char *line);
+int     parse_cylinder(char *line);
 
 //ERROR
 int print_error(int err_code);

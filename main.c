@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/19 20:01:29 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:42:39 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@
 	return (color);
 }*/
 
-static void	exit_window(mlx_key_data_t keydata, void *ptr)
+/*static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
     if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(ptr);
 		return ;
 	}
-}
+}*/
 
 static int	check_extension(char *arg, int i)
 {
@@ -65,11 +65,11 @@ int main(int argc, char **argv)
 		return (print_error(FILE_FORMAT));
 	
 	//PARSING
-	if (parse_file(argv[1], NULL, NULL))
+	if (!parse_file(argv[1], NULL, NULL))
 		return (1);
 	
 	//WINDOW MANAGEMENT
-	mlx_t	*mlx;
+	/*mlx_t	*mlx;
 	mlx_image_t* img;
     uint32_t sphere_color = 0x00FFFF;
 	
@@ -94,6 +94,6 @@ int main(int argc, char **argv)
 	mlx_key_hook(mlx, (mlx_keyfunc)exit_window, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, img);
-	mlx_terminate(mlx);
+	mlx_terminate(mlx);*/
     return (0);
 }
