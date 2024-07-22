@@ -55,11 +55,11 @@ void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int lig
     float sphere_radius = 100.0;
     int sphere_center_x = 400;
     int sphere_center_y = 300;
-    float camera_distance = 400.0; // Distance from camera to the projection plane
+    float camera_distance = 200.0; // Distance from camera to the projection plane
 
     // Define smaller step sizes for phi and theta to make the sphere denser
-    float step_phi = 0.01;
-    float step_theta = 0.01;
+    float step_phi = 0.001;
+    float step_theta = 0.001;
 
     // Convert FOV from degrees to radians
     float fov_radians = fov * (PI / 180.0);
@@ -96,28 +96,28 @@ void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int
     float cylinder_height = 200.0;
     int cylinder_center_x = 600;
     int cylinder_center_y = 300;
-    float camera_distance = 400.0; // Distance from camera to the projection plane
+    float camera_distance = 250.0; // Distance from camera to the projection plane
 
     // Define smaller step sizes for theta and z to make the cylinder denser
-    float step_theta = 0.01;
-    float step_z = 1.0;
+    float step_theta = 0.001; // Adjusted for practicality
+    float step_y = 0.001; // Adjusted for practicality
 
     // Convert FOV from degrees to radians
     float fov_radians = fov * (PI / 180.0);
 
     // Calculate the perspective projection scaling factors
     float scale_x = tan(fov_radians / 2.0) * aspect_ratio;
-    float scale_y = tan(fov_radians / 2.0);
+    float scale_z = tan(fov_radians / 2.0);
 
-    // Renderthe cylinder using cylindrical coordinates
+    // Render the cylinder using cylindrical coordinates
     for (float theta = 0; theta < 2 * PI; theta += step_theta) {
-        for (float z = -cylinder_height / 2; z < cylinder_height / 2; z += step_z) {
+        for (float y = -cylinder_height / 2; y < cylinder_height / 2; y += step_y) {
             float x = cylinder_radius * cos(theta);
-            float y = cylinder_radius * sin(theta);
+            float z = cylinder_radius * sin(theta);
 
             // Apply perspective projection with aspect ratio and FOV
             float projected_x = (x * scale_x * camera_distance) / (camera_distance + z) + cylinder_center_x;
-            float projected_y = (y * scale_y * camera_distance) / (camera_distance + z) + cylinder_center_y;
+            float projected_y = (y * scale_z * camera_distance) / (camera_distance + z) + cylinder_center_y;
 
             // Calculate the color of the point under the light
             uint32_t color = calculate_lighting(x, y, z, cylinder_color, light_x, light_y, light_z);
@@ -129,4 +129,3 @@ void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int
         }
     }
 }
- 
