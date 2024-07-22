@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hthomas <hthomas@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 12:20:18 by hthomas           #+#    #+#             */
-/*   Updated: 2022/01/25 20:35:42 by hthomas          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// i found this in somebodies minirt , this may be useful for translating colors
 
 #include "../includes/minirt.h"
 
