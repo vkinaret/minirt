@@ -12,5 +12,9 @@ void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int lig
 
 // Function to render a 3D cylinder
 void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov);
+/*
+void render_plane(mlx_image_t* img, uint32_t plane_color, float aspect_ratio, float fov);*/
+
+void render_plane(mlx_image_t* img, uint32_t plane_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov);
 
 #endif // RENDER_H
