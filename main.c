@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/22 20:42:39 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:36:36 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int main(int argc, char **argv)
 {	
 	//ERROR CHECK
 	if (argc != 2)
-		return (print_error(ARGUMENT_COUNT));
+		return (print_error(ARGUMENT_COUNT, 1));
 	if (check_extension(argv[1], 0))
-		return (print_error(FILE_FORMAT));
+		return (print_error(FILE_FORMAT, 2));
 	
 	//PARSING
 	if (!parse_file(argv[1], NULL, NULL))
