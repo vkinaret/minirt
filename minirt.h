@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/28 16:52:55 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:09:36 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ enum    e_error
     COORDINATES,
     VECTOR,
     FOV,
-    DIAMETER
+    DIAMETER,
+    HEIGHT
 };
 
 typedef struct  s_rgb
@@ -95,6 +96,7 @@ int     parse_cylinder(char *line);
 int     parse_coordinates(char *line, int i, int count);
 int     parse_color(char *line, int i, int count);
 int     parse_ratio(char *line, int i);
+int     parse_vector(char *line, int i, int count);
 
 //ERROR
 int print_error(int err, int code);

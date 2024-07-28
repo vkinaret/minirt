@@ -6,56 +6,11 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 00:10:46 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/26 18:51:43 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:10:21 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static int  iterate(int i, char *line, int mode)
-{
-    i++;
-    if (mode == 0)
-    {
-        if (line[i] == '.' && ft_isdigit(line[i + 1]))
-        {
-            i++;
-            while (ft_isdigit(line[i]))
-                i++;
-        }
-    }
-    if (mode == 1)
-    {
-        if (line[i] == '.' && line[i + 1] == '0')
-        {
-            i++;
-            while (line[i] == '0')
-                i++;
-        }
-    }
-    return (i);
-}
-
-static int  parse_vector(char *line, int i, int count)
-{
-    while (++count < 3)
-    {
-        i = 0;
-        if (line[i] == '-')
-            i++;
-        if (line[i] == '0')
-            i = iterate(i, line, 0);
-        else if (line[i] == '1')
-            i = iterate(i, line, 1);
-        line += i;
-        if (count == 2 && *line != ',')
-            return (0);
-        if (count < 2 && *line != ',')
-            return (1);
-        line++;
-    }
-    return (1);
-}
 
 static int  parse_fov(char *line, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:00:00 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/28 16:52:41 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:04:46 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #define ERROR10 "The vector values have a range between -1 and 1."
 #define ERROR11 "The field of view has a range between 0 and 180."
 #define ERROR12 "The diameter must be larger than 0."
+#define ERROR13 "The cylinder's height must be larger than 0."
 
 int print_error(int err, int code)
 {
@@ -52,5 +53,7 @@ int print_error(int err, int code)
         printf("(%d): %s\n", code, ERROR11);
     if (err == DIAMETER)
         printf("(%d): %s\n", code, ERROR12);
+    if (err == HEIGHT)
+        printf("(%d): %s\n", code, ERROR13);
     return (err);
 }
