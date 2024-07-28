@@ -6,87 +6,52 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 00:53:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/22 20:58:12 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:37:39 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int parse_color(char *line, int i, int count)
-{
-    while (count < 3)
-    {
-        i = 0;
-        while (ft_isdigit(line[i]))
-            i++;
-        if (i == 0 || i > 3 || (i == 3 && ft_strncmp(line, "255", i) > 0))
-            return (1);
-        line += i;
-        if (count < 2 && *line != ',')
-            return (1);
-        if (count == 2 && *line != '\n')
-            return (1);
-        line++;
-        count++;
-    }
-    return (0);
-}
-
-static int parse_ratio(char *line, int i)
-{
-    if (line[0] == '0')
-    {
-        i++;
-        if (line[1] == '.' && ft_isdigit(line[i]))
-        {
-            i++;
-            while (ft_isdigit(line[i]))
-                i++;
-        }
-    }
-    else if (line[0] == '1')
-    {
-        i++;
-        if (line[1] == '.' && line[i] == '0')
-        {
-            i++;
-            while (line[i] == '0')
-                i++;
-        }
-    }
-    if (line[i] == ' ')
-        return (0);
-    return (1);
-}
-
-static int  parse_coordinates(char *line)
-{
-    if (!line)
-        return (1);
-    return (0);
-}
-
 int parse_light(char *line)
 {
     while (*line == ' ')
         line++;
-    if (parse_coordinates(line) == 1)
-        return (print_error(COORDINATES));
+    if (parse_coordinates(line, 0, -1) == 1)
+        return (print_error(COORDINATES, 6));
     while (ft_isdigit(*line) || *line == ',' || *line == '-')
         line++;
     while (*line == ' ')
         line++;
     if (parse_ratio(line, 2) == 1)
-        return (print_error(RATIO));
+        return (print_error(RATIO, 7));
     while (ft_isdigit(*line) || *line == '.')
         line++;
     while (*line == ' ')
         line++;
     if (parse_color(line, 0, 0) == 1)
-        return (print_error(COLOR));
+        return (print_error(COLOR, 8));
     while (ft_isdigit(*line) || *line == ',')
         line++;
     if (*line != '\n')
-        return (print_error(NEWLINE));
+        return (print_error(NEWLINE, 9));
+    return (0);
+}
+
+int parse_ambient(char *line)
+{
+    while (*line == ' ')
+        line++;
+    if (parse_ratio(line, 2) == 1)
+        return (print_error(RATIO, 10));
+    while (ft_isdigit(*line) || *line == '.')
+        line++;
+    while (*line == ' ')
+        line++;
+    if (parse_color(line, 0, 0) == 1)
+        return (print_error(COLOR, 11));
+    while (ft_isdigit(*line) || *line == ',')
+        line++;
+    if (*line != '\n')
+        return (print_error(NEWLINE, 12));
     return (0);
 }

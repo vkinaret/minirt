@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:31:38 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/22 20:43:27 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:37:03 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int check_identifier(char *line)
         return (parse_sphere(line + 2));
     if (!ft_strncmp(line, "cy ", 2))
 		return (parse_cylinder(line + 2));
-    return (print_error(WRONG_ID));
+    return (print_error(WRONG_ID, 5));
 }
 
 static int dupcheck(t_list *list, char *id)
@@ -72,9 +72,9 @@ static int parse_list(t_list *list)
 
     temp = list;
     if (temp == NULL)
-        return (print_error(EMPTY_FILE));
+        return (print_error(EMPTY_FILE, 3));
     if (dupcheck(list, "A ") || dupcheck(list, "C ") || dupcheck(list, "L "))
-        return (print_error(DUPLICATE));
+        return (print_error(DUPLICATE, 4));
     while (temp)
     {
         if (check_identifier(temp->content))

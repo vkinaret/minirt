@@ -6,34 +6,11 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 00:10:46 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/22 20:58:16 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:51:43 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static int  parse_coordinates(char *line, int i, int count)
-{
-    while (++count < 3)
-    {
-        i = 0;
-        if (line[i] == '-')
-            i++;
-        while (ft_isdigit(line[i]))
-            i++;
-        if (line[i] == '.')
-            i++;
-        while (ft_isdigit(line[i]))
-            i++;
-        line += i;
-        if (count < 2 && *line != ',')
-            return (1);
-        if (count == 2 && *line != ' ')
-            return (1);
-        line++;
-    }
-    return (0);
-}
 
 static int  iterate(int i, char *line, int mode)
 {
@@ -49,7 +26,7 @@ static int  iterate(int i, char *line, int mode)
     }
     if (mode == 1)
     {
-        if (line[i] == '.' && line[i + 2] == '0')
+        if (line[i] == '.' && line[i + 1] == '0')
         {
             i++;
             while (line[i] == '0')
@@ -94,22 +71,22 @@ int parse_camera(char *line)
     while (*line == ' ')
         line++;
     if (parse_coordinates(line, 0, -1))
-        return (print_error(COORDINATES));
+        return (print_error(COORDINATES, 13));
     while (ft_isdigit(*line) || *line == ',' || *line == '-' || *line == '.')
         line++;
     while (*line == ' ')
         line++;
     if (parse_vector(line, 0, -1))
-        return (print_error(VECTOR));
+        return (print_error(VECTOR, 14));
     while (ft_isdigit(*line) || *line == ',' || *line == '-' || *line == '.')
         line++;
     while (*line == ' ')
         line++;
     if (parse_fov(line, 0))
-        return (print_error(FOV));
+        return (print_error(FOV, 15));
     while (ft_isdigit(*line))
         line++;
     if (*line != '\n')
-        return (print_error(NEWLINE));
+        return (print_error(NEWLINE, 16));
     return (0);
 }
