@@ -6,24 +6,25 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 03:17:51 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/28 17:09:46 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:28:28 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int  parse_diameter(char *line, int i)
+static int  parse_dimension(char *line, int i)
 {
-    if (!line[i])
-        return (1);
-    return (0);
-}
-
-static int  parse_height(char *line, int i)
-{
-    if (!line[i])
-        return (1);
-    return (0);
+    while (ft_isdigit(line[i]))
+        i++;
+    if (line[i] == '.' && ft_isdigit(line[i + 1]))
+    {
+        i++;
+        while (ft_isdigit(line[i]))
+            i++;
+    }
+    if (line[i] == ' ')
+        return (0);
+    return (1);
 }
 
 int parse_cylinder(char *line)
@@ -42,13 +43,13 @@ int parse_cylinder(char *line)
         line++;
     while (*line == ' ')
         line++;
-    if (parse_diameter(line, 0))
+    if (parse_dimension(line, 0))
         return (print_error(DIAMETER, 29));
     while (ft_isdigit(*line) || *line == '.')
         line++;
     while (*line == ' ')
         line++;
-    if (parse_height(line, 0))
+    if (parse_dimension(line, 0))
         return (print_error(HEIGHT, 30));
     while (ft_isdigit(*line) || *line == '.')
         line++;
