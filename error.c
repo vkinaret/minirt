@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:00:00 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/28 17:04:46 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:08:03 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,39 @@
 #define ERROR12 "The diameter must be larger than 0."
 #define ERROR13 "The cylinder's height must be larger than 0."
 
-int print_error(int err, int code)
+static int	more_errors(int err, int code)
 {
-    printf("Error\n");
-    if (err == ARGUMENT_COUNT)
-        printf("(%d): %s\n", code, ERROR1);
-    if (err == FILE_FORMAT)
-        printf("(%d): %s\n", code, ERROR2);
-    if (err == WRONG_ID)
-        printf("(%d): %s\n", code, ERROR3);
-    if (err == EMPTY_FILE)
-        printf("(%d): %s\n", code, ERROR4);
-    if (err == DUPLICATE)
-        printf("(%d): %s\n", code, ERROR5);
-    if (err == RATIO)
-        printf("(%d): %s\n", code, ERROR6);
-    if (err == COLOR)
-        printf("(%d): %s\n", code, ERROR7);
-    if (err == NEWLINE)
-        printf("(%d): %s\n", code, ERROR8);
-    if (err == COORDINATES)
-        printf("(%d): %s\n", code, ERROR9);
-    if (err == VECTOR)
-        printf("(%d): %s\n", code, ERROR10);
-    if (err == FOV)
-        printf("(%d): %s\n", code, ERROR11);
-    if (err == DIAMETER)
-        printf("(%d): %s\n", code, ERROR12);
-    if (err == HEIGHT)
-        printf("(%d): %s\n", code, ERROR13);
-    return (err);
+	if (err == DIAMETER)
+		printf("(%d): %s\n", code, ERROR12);
+	if (err == HEIGHT)
+		printf("(%d): %s\n", code, ERROR13);
+	return (err);
+}
+
+int	print_error(int err, int code)
+{
+	printf("Error\n");
+	if (err == ARGUMENT_COUNT)
+		printf("(%d): %s\n", code, ERROR1);
+	if (err == FILE_FORMAT)
+		printf("(%d): %s\n", code, ERROR2);
+	if (err == WRONG_ID)
+		printf("(%d): %s\n", code, ERROR3);
+	if (err == EMPTY_FILE)
+		printf("(%d): %s\n", code, ERROR4);
+	if (err == DUPLICATE)
+		printf("(%d): %s\n", code, ERROR5);
+	if (err == RATIO)
+		printf("(%d): %s\n", code, ERROR6);
+	if (err == COLOR)
+		printf("(%d): %s\n", code, ERROR7);
+	if (err == NEWLINE)
+		printf("(%d): %s\n", code, ERROR8);
+	if (err == COORDINATES)
+		printf("(%d): %s\n", code, ERROR9);
+	if (err == VECTOR)
+		printf("(%d): %s\n", code, ERROR10);
+	if (err == FOV)
+		printf("(%d): %s\n", code, ERROR11);
+	return (more_error(err, code));
 }
