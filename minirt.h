@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/28 17:09:36 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:01:05 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ enum    e_error
     HEIGHT
 };
 
+typedef struct  s_xyz
+{
+	double	x;
+	double	y;
+	double	z;
+}               t_xyz;
+
 typedef struct  s_rgb
 {
     int r;
@@ -53,25 +60,25 @@ typedef struct  s_rgb
 
 typedef struct  s_object
 {
-    int     type; //sphere, plane, cylinder
-    int     coords[3]; //width (x), height (y), length (z)
-    int     vector[3]; //plane and cylinder only
-    int     diameter; //sphere and cylinder only
-    int     height; //cylinder only
-    t_rgb   color;
+    int		type;
+    t_xyz	center;
+    t_xyz	vector;
+    double	diameter;
+    double	height;
+    t_rgb	color;
 }               t_object;
 
 typedef struct  s_light
 {
-    int coords[3]; //width (x), height (y), length (z)
-    int ratio; //ambient and diffuse only
-    t_rgb   color;
+    t_xyz	point;
+    double	ratio;
+    t_rgb	color;
 }               t_light;
 
 typedef struct  s_camera
 {
-    double  pov[3];
-    double  vector[3];
+    t_xyz	pov;
+    t_xyz	vector;
     int     fov;
 }               t_camera;
 
