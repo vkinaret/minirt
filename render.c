@@ -53,18 +53,32 @@ uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, in
     return (r << 16) | (g << 8) | b;
 }
 
-
+// Helper function to normalize a vector
+void normalize(float* x, float* y, float* z) {
+    float length = sqrt((*x) * (*x) + (*y) * (*y) + (*z) * (*z));
+    if (length != 0.0) {
+        *x /= length;
+        *y /= length;
+        *z /= length;
+    }
+}
 
 // Function to render a 3D sphere
-void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity,float ambient_reflectivity) {
+void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity,float ambient_reflectivity,float camera_x, float camera_y, float camera_z) {
     float sphere_radius = 200.0;
     int sphere_center_x = 400;
     int sphere_center_y = 300;
-    float camera_distance = 400.0; // Distance from camera to the projection plane
+    float camera_distance = 400; // Distance from camera to the projection plane
 
     // Define smaller step sizes for phi and theta to make the sphere denser
     float step_phi = 0.001;
     float step_theta = 0.001;
+
+    // Compute the normalized camera direction vector
+    float camera_direction_x = camera_x;
+    float camera_direction_y = camera_y;
+    float camera_direction_z = camera_z;
+    normalize(&camera_direction_x, &camera_direction_y, &camera_direction_z);
 
     // Convert FOV from degrees to radians
     float fov_radians = fov * (PI / 180.0);
@@ -73,18 +87,23 @@ void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int lig
     float scale_x = tan(fov_radians / 2.0) * aspect_ratio;
     float scale_y = tan(fov_radians / 2.0);
 
-    // Render the sphere using spherical coordinates
-	for (float phi = 0; phi < PI; phi += step_phi) {
+    for (float phi = 0; phi < PI; phi += step_phi) {
         for (float theta = 0; theta < 2 * PI; theta += step_theta) {
             float x = sphere_radius * sin(phi) * cos(theta);
             float y = sphere_radius * sin(phi) * sin(theta);
             float z = sphere_radius * cos(phi);
 
-            float projected_x = (x * scale_x * camera_distance) / (camera_distance + z) + sphere_center_x;
-            float projected_y = (y * scale_y * camera_distance) / (camera_distance + z) + sphere_center_y;
+            // Apply camera transformation
+            float transformed_x = x - camera_x;
+            float transformed_y = y - camera_y;
+            float transformed_z = z - camera_z;
+
+            // Compute projected coordinates
+            float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + sphere_center_x;
+            float projected_y = (transformed_y * scale_y * camera_distance) / (camera_distance + transformed_z) + sphere_center_y;
 
             // Pass ambient light parameters to calculate_lighting
-            uint32_t color = calculate_lighting(x, y, z, sphere_color, light_x, light_y, light_z, ambient_intensity, ambient_reflectivity);
+            uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, sphere_color, light_x, light_y, light_z, ambient_intensity, ambient_reflectivity);
 
             if (projected_x >= 0 && projected_x < img->width && projected_y >= 0 && projected_y < img->height) {
                 mlx_put_pixel(img, (int)projected_x, (int)projected_y, color);
@@ -92,7 +111,7 @@ void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int lig
         }
     }
 }
-
+/*
 // Function to render a 3D cylinder
 void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity) {
     float cylinder_radius = 90.0;
@@ -130,7 +149,76 @@ void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int
             
         }
     }
+}*/
+
+
+
+// Function to render a 3D cylinder with new POV logic
+void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity, float ambient_reflectivity, float camera_x, float camera_y, float camera_z) {
+    float cylinder_radius = 90.0;
+    float cylinder_height = 200.0;
+    int cylinder_center_x = 600;
+    int cylinder_center_y = 200;
+    float camera_distance = 700.0; // Distance from camera to the projection plane
+
+    // Define smaller step sizes for theta and z to make the cylinder denser
+    float step_theta = 0.005; // Adjusted for practicality
+    float step_y = 0.005; // Adjusted for practicality
+
+    // Compute the normalized camera direction vector
+    float camera_direction_x = camera_x;
+    float camera_direction_y = camera_y;
+    float camera_direction_z = camera_z;
+    normalize(&camera_direction_x, &camera_direction_y, &camera_direction_z);
+
+    // Convert FOV from degrees to radians
+    float fov_radians = fov * (PI / 180.0);
+
+    // Calculate the perspective projection scaling factors
+    float scale_x = tan(fov_radians / 2.0) * aspect_ratio;
+    float scale_z = tan(fov_radians / 2.0);
+
+    // Render the cylinder using cylindrical coordinates
+    for (float theta = 0; theta < 2 * PI; theta += step_theta) {
+        for (float y = -cylinder_height / 2; y < cylinder_height / 2; y += step_y) {
+            float x = cylinder_radius * cos(theta);
+            float z = cylinder_radius * sin(theta);
+
+            // Apply camera transformation
+            float transformed_x = x - camera_x;
+            float transformed_y = y - camera_y;
+            float transformed_z = z - camera_z;
+
+            // Compute projected coordinates
+            float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + cylinder_center_x;
+            float projected_y = (transformed_y * scale_z * camera_distance) / (camera_distance + transformed_z) + cylinder_center_y;
+
+            // Pass ambient light parameters to calculate_lighting
+            uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, cylinder_color, light_x, light_y, light_z, ambient_intensity, ambient_reflectivity);
+
+            if (projected_x >= 0 && projected_x < img->width && projected_y >= 0 && projected_y < img->height) {
+                mlx_put_pixel(img, (int)projected_x, (int)projected_y, color);
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Helper function to swap two integers
 static void swap(int* a, int* b) {
@@ -179,7 +267,6 @@ static void draw_triangle(mlx_image_t* img, int x1, int y1, int x2, int y2, int 
         draw_line(img, x_left, x_right, y, color);
     }
 }
-
 
 void render_plane(mlx_image_t* img, uint32_t plane_color, float aspect_ratio, float fov) {
     float plane_size = 200.0;
