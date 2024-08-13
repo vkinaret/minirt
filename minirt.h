@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:19:36 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:58:23 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,20 @@ typedef struct s_xyz
 
 typedef struct s_rgb
 {
-	int	r;
-	int	g;
-	int	b;
+	int		r;
+	int		g;
+	int		b;
+	t_int	hex;
 }				t_rgb;
 
 typedef struct s_object
 {
-	int		type;
-	t_xyz	center;
-	t_xyz	vector;
-	double	diameter;
-	double	height;
-	t_rgb	color;
+	int			type;
+	t_xyz		center;
+	t_xyz		vector;
+	double		diameter;
+	double		height;
+	t_rgb		color;
 }				t_object;
 
 typedef struct s_light
@@ -86,10 +87,10 @@ typedef struct s_camera
 
 typedef struct s_scene
 {
-	t_light		ambient;
-	t_light		light;
-	t_camera	camera;
-	t_object	*objects;
+	t_light		*ambient;
+	t_light		*light;
+	t_camera	*camera;
+	t_object	**objects;
 }				t_scene;
 
 t_list	*parse_file(char *argv, t_list *list, t_list *new_node);
@@ -99,11 +100,11 @@ int		parse_light(char *line);
 int		parse_plane(char *line);
 int		parse_sphere(char *line);
 int		parse_cylinder(char *line);
-
 int		parse_coordinates(char *line, int i, int count);
 int		parse_color(char *line, int i, int count);
 int		parse_ratio(char *line, int i);
 int		parse_vector(char *line, int i, int count);
+t_scene	*init_struct(t_list *list, t_scene *scene);
 
 int		print_error(int err, int code);
 

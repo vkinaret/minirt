@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:09:43 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:25:08 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,6 @@
 
 //INTERFACE
 //implement control of translation, rotation and so on via terminal?
-
-//SAFA'S COLOR CALC: should return uint32_t
-/*static unsigned int	calculate_color(int iterations)
-{
-	unsigned int	color;
-	double			t;
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-
-	if (iterations < MAX_ITERATIONS)
-	{
-		t = (double)iterations / MAX_ITERATIONS;
-		r = (unsigned char)(255 * t);
-		g = (unsigned char)(255 * t);
-		b = (unsigned char)(128 * (1 - t));
-		color = (r << 28) | (g << 16) | b;
-	}
-	else
-		color = 0x000764;
-	return (color);
-}*/
 
 /*static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
@@ -55,14 +33,54 @@ static int	check_extension(char *arg, int i)
 	return (1);
 }
 
+static void	print_list(t_list *list)
+{
+	t_list	*temp;
+
+	temp = list;
+	printf("Printing list...\n");
+	while (temp)
+	{
+		printf("%s", (char *)temp->content);
+		temp = temp->next;
+	}
+}
+
+static void print_scene(t_scene *scene)
+{
+	printf("\nPrinting struct...\n");
+	printf("A has ratio of %f\n", scene->ambient->ratio);
+	printf("A has color of %d, %d, %d\n", scene->ambient->color.r, scene->ambient->color.g, scene->ambient->color.b);
+	printf("A has hex value of #%x\n", scene->ambient->color.hex);
+	printf("L has coordinates of %f, %f, %f (xyz)\n", scene->light->point.x, scene->light->point.y, scene->light->point.z);
+	printf("L has ratio of %f\n", scene->light->ratio);
+	printf("L has color of %d, %d, %d\n", scene->light->color.r, scene->light->color.g, scene->light->color.b);
+	printf("L has hex value of #%x\n", scene->light->color.hex);
+}
+
 int	main(int argc, char **argv)
 {
+	t_list *list;
+	t_scene	*scene;
+
+	list = NULL;
 	if (argc != 2)
 		return (print_error(ARGUMENT_COUNT, 1));
 	if (check_extension(argv[1], 0))
 		return (print_error(FILE_FORMAT, 2));
-	if (!parse_file(argv[1], NULL, NULL))
+	list = parse_file(argv[1], NULL, NULL);
+	if (!list)
 		return (1);
+	print_list(list);
+	scene = init_struct(list, NULL);
+	if (!scene)
+	{
+		ft_lstclear(&list, free);
+		return (1);
+	}
+	print_scene(scene);
+	ft_lstclear(&list, free);
+	free(scene);
 	/*mlx_t	*mlx;
 	mlx_image_t* img;
 	uint32_t sphere_color = 0x00FFFF;

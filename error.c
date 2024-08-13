@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:00:00 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:08:03 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:17:23 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ int	print_error(int err, int code)
 		printf("(%d): %s\n", code, ERROR10);
 	if (err == FOV)
 		printf("(%d): %s\n", code, ERROR11);
-	return (more_error(err, code));
+	return (more_errors(err, code));
 }

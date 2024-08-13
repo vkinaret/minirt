@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:31:38 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:25:47 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/12 21:23:01 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,6 @@ static int	ft_free(char *line)
 {
 	free(line);
 	return (1);
-}
-
-static void	print_list(t_list *list)
-{
-	t_list	*temp;
-
-	temp = list;
-	printf("Printing list...\n");
-	while (temp)
-	{
-		printf("%s", (char *)temp->content);
-		temp = temp->next;
-	}
 }
 
 static int	check_identifier(char *line)
@@ -106,8 +93,6 @@ t_list	*parse_file(char *argv, t_list *list, t_list *new_node)
 		close(fd);
 		return (NULL);
 	}
-	print_list(list);
-	ft_lstclear(&list, free);
 	close(fd);
 	return (list);
 }
