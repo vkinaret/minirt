@@ -4,8 +4,8 @@ int main() {
     mlx_t* mlx_ptr;
     mlx_image_t* img;
     uint32_t sphere_color = 0xFFFFF;
-    uint32_t cylinder_color = 0xFFFFFF;
-    //uint32_t plane_color = 0xFFFFFF;
+    uint32_t cylinder_color = 0xC5337B;
+    uint32_t box_color = 0xE2E2E2;
 
 
     // Initialize mlx
@@ -22,23 +22,21 @@ int main() {
     }
 
     // Light source position
-    int light_x = -2000;
-    int light_y = -100;
+    int light_x = -2500;
+    int light_y = -50;
     int light_z = -100;
-    float ambient_intensity = 0.6f; // Example value
-    float ambient_reflectivity = 0.7f; // Example value
+    float ambient_intensity = 0.7f; // Example value
+    float ambient_reflectivity = 0.8f; // Example value
 
     // Camera parameters
     float camera_x = 0.0; // Set your desired camera position
-    float camera_y = -100;
+    float camera_y = -200;
     float camera_z = -300;
 
     float aspect_ratio = 1600.0 / 1200.0; // Width / Height
     float fov = 90.0; // Field of view in degrees
 
-    //render_plane(img, plane_color, aspect_ratio, fov);
-
-
+    render_plane(img, box_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
     render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
     render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
 
