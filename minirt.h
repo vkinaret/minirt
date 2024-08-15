@@ -16,11 +16,7 @@ void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int lig
 void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
 
 
-
-
-void render_plane(mlx_image_t* img, uint32_t plane_color, float aspect_ratio, float fov);
-
-
+void render_plane(mlx_image_t* img, uint32_t box_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity, float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
 
 
 
