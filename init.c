@@ -6,54 +6,11 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:40:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/13 18:21:29 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/17 20:18:49 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-//struct light
-//t_xyz	point;
-//double	ratio;
-//t_rgb	color;
-//A 0.2 255,255,255
-//L -40,0,30 0.7 255,255,255
-
-static t_rgb    init_color(char *line)
-{
-    t_rgb   color;
-
-    color.r = 0;
-    while (ft_isdigit(*line))
-    {
-        color.r *= 10;
-        color.r += (*line) - '0';
-        line++;
-    }
-    if (*line == ',')
-        line++;
-    color.g = 0;
-    while (ft_isdigit(*line))
-    {
-        color.g *= 10;
-        color.g += (*line) - '0';
-        line++;
-    }
-    if (*line == ',')
-        line++;
-    color.b = 0;
-    while (ft_isdigit(*line))
-    {
-        color.b *= 10;
-        color.b += (*line) - '0';
-        line++;
-    }
-    color.hex = 0;
-    color.hex |= (color.r & 0xFF) << 16;
-    color.hex |= (color.g & 0xFF) << 8;
-    color.hex |= (color.b & 0xFF); 
-    return (color);
-}
 
 static double   str_to_double(char *ratio)
 {
@@ -88,19 +45,8 @@ static double   init_ratio(char *line, int i, int len)
     }
     ratio = ft_substr(line, 0, len);
     value = str_to_double(ratio);
+    free(ratio);
     return (value);
-}
-
-static t_xyz    init_coords(char *line)
-{
-    t_xyz   coords;
-    
-    coords.x = 0;
-    if (line)
-        coords.x = 1;
-    coords.y = 2;
-    coords.z = 3;
-    return (coords);
 }
 
 static t_light	*init_ambient(t_list *list)
@@ -166,16 +112,6 @@ static t_light	*init_light(t_list *list)
     free(light);
     return (NULL);
 }
-
-/*static t_camera	*init_camera(t_list *list)
-{
-    
-}
-
-static t_object	**init_objects(t_list *list)
-{
-    
-}*/
 
 t_scene	*init_struct(t_list *list, t_scene *scene)
 {

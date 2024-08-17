@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 00:53:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:21:18 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/17 20:01:27 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	parse_light(char *line)
 		line++;
 	if (parse_coordinates(line, 0, -1) == 1)
 		return (print_error(COORDINATES, 6));
-	while (ft_isdigit(*line) || *line == ',' || *line == '-')
+	while (ft_isdigit(*line) || *line == '.' || *line == ',' || *line == '-')
 		line++;
 	while (*line == ' ')
 		line++;

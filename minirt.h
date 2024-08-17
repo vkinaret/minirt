@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/13 17:58:23 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/17 20:19:57 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int		parse_color(char *line, int i, int count);
 int		parse_ratio(char *line, int i);
 int		parse_vector(char *line, int i, int count);
 t_scene	*init_struct(t_list *list, t_scene *scene);
+t_rgb	init_color(char *line);
+t_xyz	init_coords(char *line);
 
 int		print_error(int err, int code);
 
