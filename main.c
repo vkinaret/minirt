@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/13 18:25:08 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/20 21:19:59 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ static void print_scene(t_scene *scene)
 	printf("L has ratio of %f\n", scene->light->ratio);
 	printf("L has color of %d, %d, %d\n", scene->light->color.r, scene->light->color.g, scene->light->color.b);
 	printf("L has hex value of #%x\n", scene->light->color.hex);
+	printf("C has pov of %f, %f, %f (xyz)\n", scene->camera->pov.x, scene->camera->pov.y, scene->camera->pov.z);
+	printf("C has vector of %f, %f, %f (xyz)\n", scene->camera->vector.x, scene->camera->vector.y, scene->camera->vector.z);
+	printf("C has fov of %d\n", scene->camera->fov);
 }
 
 int	main(int argc, char **argv)

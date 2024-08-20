@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/20 20:20:26 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/20 21:19:42 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ typedef struct s_rgb
 
 typedef struct s_object
 {
-	int			type;
-	t_xyz		center;
-	t_xyz		vector;
-	double		diameter;
-	double		height;
-	t_rgb		color;
+	int				type;
+	t_xyz			center;
+	t_xyz			vector;
+	double			diameter;
+	double			height;
+	t_rgb			color;
+	struct s_object	*next;
 }				t_object;
 
 typedef struct s_light
@@ -90,7 +91,7 @@ typedef struct s_scene
 	t_light		*ambient;
 	t_light		*light;
 	t_camera	*camera;
-	t_object	**objects;
+	t_object	*objects;
 }				t_scene;
 
 t_list	*parse_file(char *argv, t_list *list, t_list *new_node);
@@ -107,7 +108,8 @@ int		parse_vector(char *line, int i, int count);
 t_scene	*init_struct(t_list *list, t_scene *scene);
 t_rgb	init_color(char *line);
 t_xyz	init_point(char *line);
-double  init_ratio(char *line, int i, int len);
+double  init_ratio(char *line);
+t_xyz	init_vector(char *line);
 
 int		print_error(int err, int code);
 

@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 00:10:46 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:20:26 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/20 21:30:20 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	parse_fov(char *line, int i)
 {
 	while (ft_isdigit(line[i]))
 		i++;
-	if (i == 0 || i > 3 || (i == 3 && ft_strncmp(line, "180", i) < 0))
+	if (i == 0 || i > 3 || (i == 3 && ft_strncmp(line, "180", i) > 0))
 		return (1);
 	return (0);
 }
