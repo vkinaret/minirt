@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:32:10 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/07/31 20:23:25 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:24:55 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,29 @@ int	parse_ratio(char *line, int i)
 {
 	if (line[0] == '0')
 	{
-		i++;
-		if (line[1] == '.' && ft_isdigit(line[i]))
+		if (line[1] == '.' && ft_isdigit(line[2]))
 		{
-			i++;
 			while (ft_isdigit(line[i]))
 				i++;
 		}
+		else if (line[1] == ' ')
+			return (0);
 	}
 	else if (line[0] == '1')
 	{
-		i++;
-		if (line[1] == '.' && line[i] == '0')
+		if (line[1] == '.' && line[2] == '0')
 		{
-			i++;
 			while (line[i] == '0')
 				i++;
 		}
+		else if (line[1] == ' ')
+			return (0);
 	}
 	if (line[i] == ' ')
 		return (0);
 	return (1);
 }
+
 
 static int	iterate(int i, char *line, int mode)
 {

@@ -6,48 +6,11 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:40:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/17 20:18:49 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:21:53 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-static double   str_to_double(char *ratio)
-{
-    double  x;
-    double  value;
-
-    x = 0.1;
-    value = 0;
-    if (*ratio == '1')
-        value = 1;
-    ratio++;
-    if (*ratio == '.')
-        ratio++;
-    while (ft_isdigit(*ratio))
-    {
-        value += ((*ratio) - '0') * x;
-        x = x * 0.1;
-        ratio++;
-    }
-    return (value);
-}
-
-static double   init_ratio(char *line, int i, int len)
-{
-    char    *ratio;
-    double  value;
-
-    while (ft_isdigit(line[i]) || line[i] == '.')
-    {
-        len++;
-        i++;
-    }
-    ratio = ft_substr(line, 0, len);
-    value = str_to_double(ratio);
-    free(ratio);
-    return (value);
-}
 
 static t_light	*init_ambient(t_list *list)
 {
@@ -93,7 +56,7 @@ static t_light	*init_light(t_list *list)
 		{
             while (*content == 'L' || *content == ' ')
                 content++;
-            light->point = init_coords(content);
+            light->point = init_point(content);
             while(ft_isdigit(*content) || *content == '.'
                 || *content == ',' || *content == '-')
                 content++;
