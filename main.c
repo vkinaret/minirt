@@ -6,14 +6,11 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/20 21:19:59 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/23 23:24:18 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-//INTERFACE
-//implement control of translation, rotation and so on via terminal?
 
 /*static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
@@ -48,17 +45,49 @@ static void	print_list(t_list *list)
 
 static void print_scene(t_scene *scene)
 {
-	printf("\nPrinting struct...\n");
-	printf("A has ratio of %f\n", scene->ambient->ratio);
-	printf("A has color of %d, %d, %d\n", scene->ambient->color.r, scene->ambient->color.g, scene->ambient->color.b);
-	printf("A has hex value of #%x\n", scene->ambient->color.hex);
-	printf("L has coordinates of %f, %f, %f (xyz)\n", scene->light->point.x, scene->light->point.y, scene->light->point.z);
-	printf("L has ratio of %f\n", scene->light->ratio);
-	printf("L has color of %d, %d, %d\n", scene->light->color.r, scene->light->color.g, scene->light->color.b);
-	printf("L has hex value of #%x\n", scene->light->color.hex);
-	printf("C has pov of %f, %f, %f (xyz)\n", scene->camera->pov.x, scene->camera->pov.y, scene->camera->pov.z);
-	printf("C has vector of %f, %f, %f (xyz)\n", scene->camera->vector.x, scene->camera->vector.y, scene->camera->vector.z);
-	printf("C has fov of %d\n", scene->camera->fov);
+	int	p = 1;
+	int s = 1;
+	int c = 1;
+	t_object *object = scene->objects;
+	
+	printf("\nPrinting struct...\n\n");
+	printf("Ambient has ratio of %f\n", scene->ambient->ratio);
+	printf("Ambient has color of %d, %d, %d\n", scene->ambient->color.r, scene->ambient->color.g, scene->ambient->color.b);
+	printf("Ambient has hex value of #%x\n\n", scene->ambient->color.hex);
+	printf("Light has coordinates of %f, %f, %f (xyz)\n", scene->light->point.x, scene->light->point.y, scene->light->point.z);
+	printf("Light has ratio of %f\n", scene->light->ratio);
+	printf("Light has color of %d, %d, %d\n", scene->light->color.r, scene->light->color.g, scene->light->color.b);
+	printf("Light has hex value of #%x\n\n", scene->light->color.hex);
+	printf("Camera has pov of %f, %f, %f (xyz)\n", scene->camera->pov.x, scene->camera->pov.y, scene->camera->pov.z);
+	printf("Camera has vector of %f, %f, %f (xyz)\n", scene->camera->vector.x, scene->camera->vector.y, scene->camera->vector.z);
+	printf("Camera has fov of %d\n\n", scene->camera->fov);
+	while (object != NULL)
+	{
+		if (object->id == 'P')
+		{
+			printf("Plane %d has coordinates of %f, %f, %f (xyz)\n", p, object->point.x, object->point.y, object->point.z);
+			printf("Plane %d has vector of %f, %f, %f (xyz)\n", p, object->vector.x, object->vector.y, object->vector.z);
+			printf("Plane %d has color of %d, %d, %d\n\n", p, object->color.r, object->color.g, object->color.b);
+			p++;
+		}
+		else if (object->id == 'S')
+		{
+			printf("Sphere %d has coordinates of %f, %f, %f\n", s, object->point.x, object->point.y, object->point.z);
+			printf("Sphere %d has diameter of %f\n", s, object->diameter);
+			printf("Sphere %d has color of %d, %d, %d\n\n", s, object->color.r, object->color.g, object->color.b);
+			s++;
+		}
+		else if (object->id == 'C')
+		{
+			printf("Cylinder %d has coordinates of %f, %f, %f\n", c, object->point.x, object->point.y, object->point.z);
+			printf("Cylinder %d has vector of %f, %f, %f (xyz)\n", c, object->vector.x, object->vector.y, object->vector.z);
+			printf("Cylinder %d has diameter of %f\n", c, object->diameter);
+			printf("Cylinder %d has height of %f\n", c, object->height);
+			printf("Cylinder %d has color of %d, %d, %d\n\n", c, object->color.r, object->color.g, object->color.b);
+			c++;
+		}
+		object = object->next;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -83,6 +112,7 @@ int	main(int argc, char **argv)
 	}
 	print_scene(scene);
 	ft_lstclear(&list, free);
+	//before freeing the scene, free each malloc inside the struct
 	free(scene);
 	/*mlx_t	*mlx;
 	mlx_image_t* img;

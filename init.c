@@ -6,11 +6,19 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:40:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/20 21:24:16 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/23 22:51:25 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+static t_scene *print_malloc_error(int code)
+{
+    printf("Error\n");
+    if (code == 1)
+        printf("(M1): Failed to malloc for data struct.\n");
+    return (NULL);
+}
 
 static t_light	*init_ambient(t_list *list, char *content)
 {
@@ -24,7 +32,7 @@ static t_light	*init_ambient(t_list *list, char *content)
 		{
             while (*content == 'A' || *content == ' ')
                 content++;
-            ambient->ratio = init_ratio(content);
+            ambient->ratio = init_ratio(content, 0);
             while (ft_isdigit(*content) || *content == '.')
                 content++;
             while (*content == ' ')
@@ -47,64 +55,23 @@ static t_light	*init_light(t_list *list, char *content)
 	{
         content = list->content;
 		if (!ft_strncmp(content, "L ", 2))
-		{
-            while (*content == 'L' || *content == ' ')
-                content++;
-            light->point = init_point(content);
-            while(ft_isdigit(*content) || *content == '.'
-                || *content == ',' || *content == '-')
-                content++;
-            while (*content == ' ')
-                content++;
-            light->ratio = init_ratio(content);
-            while (ft_isdigit(*content) || *content == '.')
-                content++;
-            while (*content == ' ')
-                content++;
-            light->color = init_color(content);
-            return (light);
-        }
+            return (init_light_two(light, content));
 		list = list->next;
 	}
     free(light);
     return (NULL);
 }
 
-//typedef struct s_camera
-//{
-//	t_xyz	pov;
-//	t_xyz	vector;
-//	int		fov;
-//}				t_camera;
-//C -50,0,20 0,0,0 70
-
 static t_camera *init_camera(t_list *list, char *content)
 {
-    t_camera *camera;
+    t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
     while (list)
 	{
         content = list->content;
 		if (!ft_strncmp(content, "C ", 2))
-		{
-            while (*content == 'C' || *content == ' ')
-                content++;
-            camera->pov = init_point(content);
-            while(ft_isdigit(*content) || *content == '.'
-                || *content == ',' || *content == '-')
-                content++;
-            while (*content == ' ')
-                content++;
-            camera->vector = init_vector(content);
-            while(ft_isdigit(*content) || *content == '.'
-                || *content == ',' || *content == '-')
-                content++;
-            while (*content == ' ')
-                content++;
-            camera->fov = ft_atoi(content);
-            return (camera);
-        }
+            return(init_camera_two(camera, content));
 		list = list->next;
 	}
     free(camera);
@@ -117,10 +84,10 @@ t_scene	*init_struct(t_list *list, t_scene *scene)
 		return (NULL);
 	scene = malloc(sizeof(t_scene));
 	if (!scene)
-		return (NULL); //malloc error
+		return (print_malloc_error(1));
     scene->ambient = init_ambient(list, NULL);		
     scene->light = init_light(list, NULL);
     scene->camera = init_camera(list, NULL);
-    //scene->objects = init_objects(list);
+    scene->objects = init_objects(list, NULL);
 	return (scene);
 }

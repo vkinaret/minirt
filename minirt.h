@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/20 21:19:42 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/23 22:48:17 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ typedef struct s_rgb
 
 typedef struct s_object
 {
-	int				type;
-	t_xyz			center;
+	int				id;
+	t_xyz			point;
 	t_xyz			vector;
 	double			diameter;
 	double			height;
@@ -94,24 +94,29 @@ typedef struct s_scene
 	t_object	*objects;
 }				t_scene;
 
-t_list	*parse_file(char *argv, t_list *list, t_list *new_node);
-int		parse_ambient(char *line);
-int		parse_camera(char *line);
-int		parse_light(char *line);
-int		parse_plane(char *line);
-int		parse_sphere(char *line);
-int		parse_cylinder(char *line);
-int		parse_coordinates(char *line, int i, int count);
-int		parse_color(char *line, int i, int count);
-int		parse_ratio(char *line, int i);
-int		parse_vector(char *line, int i, int count);
-t_scene	*init_struct(t_list *list, t_scene *scene);
-t_rgb	init_color(char *line);
-t_xyz	init_point(char *line);
-double  init_ratio(char *line);
-t_xyz	init_vector(char *line);
-
-int		print_error(int err, int code);
+t_list		*parse_file(char *argv, t_list *list, t_list *new_node);
+int			parse_ambient(char *line);
+int			parse_camera(char *line);
+int			parse_light(char *line);
+int			parse_plane(char *line);
+int			parse_sphere(char *line);
+int			parse_cylinder(char *line);
+int			parse_coordinates(char *line, int i, int count);
+int			parse_color(char *line, int i, int count);
+int			parse_ratio(char *line, int i);
+int			parse_vector(char *line, int i, int count);
+t_scene		*init_struct(t_list *list, t_scene *scene);
+t_rgb		init_color(char *line);
+t_xyz		init_point(char *line);
+double  	init_ratio(char *line, int flag);
+t_xyz		init_vector(char *line);
+double		init_diameter(char *line);
+double		init_height(char *line);
+t_light 	*init_light_two(t_light *light, char *content);
+t_camera 	*init_camera_two(t_camera *camera, char *content);
+t_object	*init_objects(t_list *list, char *content);
+t_object    *init_cylinder_two(t_object *cylinder, char *content);
+int			print_error(int err, int code);
 
 t_int	calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z);
 void	render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov);
