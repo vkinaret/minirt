@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 22:48:17 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/23 23:43:27 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <math.h> //for math functions
 # include <stdint.h> //for uint32
 
-# define PI 3.14159265
+# define PI 3.14159265358979323846
 
 enum	e_error
 {
@@ -118,7 +118,11 @@ t_object	*init_objects(t_list *list, char *content);
 t_object    *init_cylinder_two(t_object *cylinder, char *content);
 int			print_error(int err, int code);
 
-t_int	calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z);
-void	render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov);
+uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z, float ambient_intensity, float ambient_reflectivity);
+void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity,float camera_x, float camera_y, float camera_z);
+void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
+void render_plane(mlx_image_t* img, uint32_t box_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity, float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
+
+
 
 #endif

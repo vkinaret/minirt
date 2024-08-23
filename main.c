@@ -6,20 +6,20 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 23:24:18 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/23 23:49:03 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-/*static void	exit_window(mlx_key_data_t keydata, void *ptr)
+static void	exit_window(mlx_key_data_t keydata, void *ptr)
 {
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(ptr);
 		return ;
 	}
-}*/
+}
 
 static int	check_extension(char *arg, int i)
 {
@@ -100,42 +100,63 @@ int	main(int argc, char **argv)
 		return (print_error(ARGUMENT_COUNT, 1));
 	if (check_extension(argv[1], 0))
 		return (print_error(FILE_FORMAT, 2));
+		
+	//parsing here
 	list = parse_file(argv[1], NULL, NULL);
 	if (!list)
 		return (1);
-	print_list(list);
+	print_list(list); //to check the contents of the list
+	
+	//init here
 	scene = init_struct(list, NULL);
 	if (!scene)
 	{
 		ft_lstclear(&list, free);
 		return (1);
 	}
-	print_scene(scene);
+	print_scene(scene); //to check the contents of the struct
 	ft_lstclear(&list, free);
-	//before freeing the scene, free each malloc inside the struct
-	free(scene);
-	/*mlx_t	*mlx;
+	
+	//rendering here
+	mlx_t	*mlx;
 	mlx_image_t* img;
-	uint32_t sphere_color = 0x00FFFF;
-	mlx = mlx_init(800, 600, "minirt", true);
+	//uint32_t sphere_color = 0x00FFFF;
+	//uint32_t cylinder_color = 0xC5337B;
+    uint32_t box_color = 0xE2E2E2;
+	
+	mlx = mlx_init(900, 600, "minirt", true);
 	if (mlx == NULL)
 		return (printf("mlx init failed"));
-	img = mlx_new_image(mlx, 800, 600);
+
+	img = mlx_new_image(mlx, 900, 600);
 	if (!img) 
 	{
 		mlx_terminate(mlx);
 		return (1);
 	}
-	int light_x = 0;
-	int light_y = 0;
-	int light_z = -20000;
-	float aspect_ratio = 800.0 / 600.0; // Width / Height
-	float fov = 60.0; // Field of view in degrees
-	render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov);
+
+	int light_x = -2500;
+    int light_y = -50;
+    int light_z = -100;
+    float ambient_intensity = 0.7f;
+    float ambient_reflectivity = 0.8f;
+    float camera_x = 0.0;
+    float camera_y = -200;
+    float camera_z = -300;
+	float aspect_ratio = 1600.0 / 1200.0;
+    float fov = 90.0;
+	
+	render_plane(img, box_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+    //render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+    //render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+
 	mlx_image_to_window(mlx, img, 0, 0);
 	mlx_key_hook(mlx, (mlx_keyfunc)exit_window, mlx);
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, img);
-	mlx_terminate(mlx);*/
+	mlx_terminate(mlx);
+	
+	//before freeing the scene, free each malloc inside the struct
+	free(scene);
 	return (0);
 }
