@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 23:49:03 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:40:40 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(int argc, char **argv)
 	print_list(list); //to check the contents of the list
 	
 	//init here
-	scene = init_struct(list, NULL);
+	scene = init_scene(list, NULL);
 	if (!scene)
 	{
 		ft_lstclear(&list, free);
@@ -118,43 +118,13 @@ int	main(int argc, char **argv)
 	ft_lstclear(&list, free);
 	
 	//rendering here
-	mlx_t	*mlx;
-	mlx_image_t* img;
-	//uint32_t sphere_color = 0x00FFFF;
-	//uint32_t cylinder_color = 0xC5337B;
-    uint32_t box_color = 0xE2E2E2;
+	render_objects(scene);
 	
-	mlx = mlx_init(900, 600, "minirt", true);
-	if (mlx == NULL)
-		return (printf("mlx init failed"));
-
-	img = mlx_new_image(mlx, 900, 600);
-	if (!img) 
-	{
-		mlx_terminate(mlx);
-		return (1);
-	}
-
-	int light_x = -2500;
-    int light_y = -50;
-    int light_z = -100;
-    float ambient_intensity = 0.7f;
-    float ambient_reflectivity = 0.8f;
-    float camera_x = 0.0;
-    float camera_y = -200;
-    float camera_z = -300;
-	float aspect_ratio = 1600.0 / 1200.0;
-    float fov = 90.0;
-	
-	render_plane(img, box_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
-    //render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
-    //render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
-
-	mlx_image_to_window(mlx, img, 0, 0);
-	mlx_key_hook(mlx, (mlx_keyfunc)exit_window, mlx);
-	mlx_loop(mlx);
-	mlx_delete_image(mlx, img);
-	mlx_terminate(mlx);
+	mlx_image_to_window(scene->mlx, scene->img, 0, 0);
+	mlx_key_hook(scene->mlx, (mlx_keyfunc)exit_window, scene->mlx);
+	mlx_loop(scene->mlx);
+	mlx_delete_image(scene->mlx, scene->img);
+	mlx_terminate(scene->mlx);
 	
 	//before freeing the scene, free each malloc inside the struct
 	free(scene);

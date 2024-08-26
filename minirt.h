@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 23:43:27 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:41:24 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_camera
 
 typedef struct s_scene
 {
+	mlx_t		*mlx;
+	mlx_image_t	*img;
 	t_light		*ambient;
 	t_light		*light;
 	t_camera	*camera;
@@ -105,7 +107,7 @@ int			parse_coordinates(char *line, int i, int count);
 int			parse_color(char *line, int i, int count);
 int			parse_ratio(char *line, int i);
 int			parse_vector(char *line, int i, int count);
-t_scene		*init_struct(t_list *list, t_scene *scene);
+t_scene		*init_scene(t_list *list, t_scene *scene);
 t_rgb		init_color(char *line);
 t_xyz		init_point(char *line);
 double  	init_ratio(char *line, int flag);
@@ -117,6 +119,7 @@ t_camera 	*init_camera_two(t_camera *camera, char *content);
 t_object	*init_objects(t_list *list, char *content);
 t_object    *init_cylinder_two(t_object *cylinder, char *content);
 int			print_error(int err, int code);
+void		render_objects(t_scene *scene);
 
 uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z, float ambient_intensity, float ambient_reflectivity);
 void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity,float camera_x, float camera_y, float camera_z);

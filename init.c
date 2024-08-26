@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 21:40:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 22:51:25 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:31:14 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ static t_camera *init_camera(t_list *list, char *content)
     return (NULL);
 }
 
-t_scene	*init_struct(t_list *list, t_scene *scene)
+t_scene	*init_scene(t_list *list, t_scene *scene)
 {
-	if (!list)
-		return (NULL);
 	scene = malloc(sizeof(t_scene));
 	if (!scene)
 		return (print_malloc_error(1));
@@ -89,5 +87,18 @@ t_scene	*init_struct(t_list *list, t_scene *scene)
     scene->light = init_light(list, NULL);
     scene->camera = init_camera(list, NULL);
     scene->objects = init_objects(list, NULL);
+    scene->mlx = mlx_init(900, 600, "minirt", true);
+	if (!scene->mlx)
+    {
+        printf("mlx init failed"); //free
+        return (NULL);
+    }
+	scene->img = mlx_new_image(scene->mlx, 900, 600);
+	if (!scene->img) 
+	{
+		mlx_terminate(scene->mlx);
+        printf("mlx image failed"); //free
+		return (NULL);
+	}
 	return (scene);
 }

@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:38:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/23 23:32:22 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:34:34 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int
 // Function to render a solid 3D cube with colorful faces and lighting
 void render_plane(mlx_image_t* img, uint32_t cube_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity, float ambient_reflectivity, float camera_x, float camera_y, float camera_z) {
     float cube_width = 2000.0; // Width (X dimension)
-    float cube_height = 1.0; // Height (Y dimension) - Adjust this value as needed
+    float cube_height = 1000.0; // Height (Y dimension) - Adjust this value as needed
     float cube_depth = 2000.0; // Depth (Z dimension)
     int cube_center_x = img->width / 2; // Center horizontally
     int cube_center_y = img->height / 1.5; // Center vertically
@@ -206,4 +206,105 @@ void render_plane(mlx_image_t* img, uint32_t cube_color, int light_x, int light_
             }
         }
     }
+}
+
+/*void    render_p(t_object *plane)
+{
+    //mlx_image_t* img, uint32_t cube_color, 
+    //int light_x, int light_y, int light_z, 
+    //float aspect_ratio, float fov, float ambient_intensity, 
+    //float ambient_reflectivity, float camera_x, float camera_y, 
+    //float camera_z
+
+    float cube_width = 2000.0; // Width (X dimension)
+    float cube_height = 1.0; // Height (Y dimension) - Adjust this value as needed
+    float cube_depth = 2000.0; // Depth (Z dimension)
+    int cube_center_x = img->width / 2; // Center horizontally
+    int cube_center_y = img->height / 1.5; // Center vertically
+    float camera_distance = 400.0;
+
+    // Convert FOV from degrees to radians
+    float fov_radians = fov * (PI / 180.0);
+
+    // Calculate the perspective projection scaling factors
+    float scale_x = tan(fov_radians / 2.0) * aspect_ratio;
+    float scale_y = tan(fov_radians / 2.0);
+
+    // Render each voxel (pixel) within the cube
+    for (float x ; x < cube_width / 5; ++x)
+    {
+        for (float y ; y < cube_height / 5; ++y) 
+        {
+            for (float z ; z < cube_depth / 5; ++z) 
+            {
+                // Apply camera transformation
+                float transformed_x = x - camera_x;
+                float transformed_y = y - camera_y;
+                float transformed_z = z - camera_z;
+
+                // Compute projected coordinates
+                float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + cube_center_x;
+                float projected_y = (transformed_y * scale_y * camera_distance) / (camera_distance + transformed_z) + cube_center_y;
+
+                if (projected_x >= 0 && projected_x < img->width && projected_y >= 0 && projected_y < img->height) {
+                    // Calculate ambient and diffuse lighting using the provided function
+                    uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, cube_color, light_x, light_y, light_z, ambient_intensity, ambient_reflectivity);
+                    mlx_put_pixel(img, (int)projected_x, (int)projected_y, color);
+                }
+            }
+        }
+    }
+    
+    double x = -cube_width / 5;
+    double y = -cube_height / 5;
+    double z = -cube_depth / 5;
+    
+    while (x < cube_width / 5)
+    {
+        while (y < cube_height / 5)
+        {
+            while (z < cube_depth / 5)
+            {
+                z++;
+            }
+            y++;
+        }
+        x++;
+    }
+}*/
+
+void    render_objects(t_scene *scene)
+{
+    t_object    *temp;
+    
+    temp = scene->objects;
+    while (temp)
+    {
+        //if (temp->id == 'P')
+        //    render_plane(temp);
+        //else if (temp->id == 'S')
+        //    render_sphere(scene);
+        //else if (temp->id == 'C')
+        //    render_cylinder(scene);
+        temp = temp->next;
+    }
+    
+    //uint32_t sphere_color = 0x00FFFF;
+	//uint32_t cylinder_color = 0xC5337B;
+    uint32_t box_color = 0xE2E2E2;
+	int light_x = -2500;
+    int light_y = -50;
+    int light_z = -100;
+    float ambient_intensity = 0.7f;
+    float ambient_reflectivity = 0.8f;
+    float camera_x = 0.0;
+    float camera_y = -200;
+    float camera_z = -300;
+	float aspect_ratio = 1600.0 / 1200.0;
+    float fov = 90.0;
+	
+	render_plane(scene->img, box_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+    //render_sphere(img, sphere_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+    //render_cylinder(img, cylinder_color, light_x, light_y, light_z, aspect_ratio, fov, ambient_intensity, ambient_reflectivity, camera_x, camera_y, camera_z);
+
 }
