@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/26 09:41:24 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:43:42 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdint.h> //for uint32
 
 # define PI 3.14159265358979323846
+# define ASPECT 1600.0 / 1200.0
+# define REFLECT 0.8f
 
 enum	e_error
 {
@@ -121,11 +123,9 @@ t_object    *init_cylinder_two(t_object *cylinder, char *content);
 int			print_error(int err, int code);
 void		render_objects(t_scene *scene);
 
-uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z, float ambient_intensity, float ambient_reflectivity);
-void render_sphere(mlx_image_t* img, uint32_t sphere_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity,float camera_x, float camera_y, float camera_z);
-void render_cylinder(mlx_image_t* img, uint32_t cylinder_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov,float ambient_intensity,float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
-void render_plane(mlx_image_t* img, uint32_t box_color, int light_x, int light_y, int light_z, float aspect_ratio, float fov, float ambient_intensity, float ambient_reflectivity, float camera_x, float camera_y, float camera_z);
-
-
+t_int		calculate_lighting(float x, float y, float z, t_int sphere_color, int light_x, int light_y, int light_z, double brightness);
+void		render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
+void		render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
+void		render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
 
 #endif

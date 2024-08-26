@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:53:11 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/26 09:40:40 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/26 15:07:09 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,16 @@ static void print_scene(t_scene *scene)
 		{
 			printf("Plane %d has coordinates of %f, %f, %f (xyz)\n", p, object->point.x, object->point.y, object->point.z);
 			printf("Plane %d has vector of %f, %f, %f (xyz)\n", p, object->vector.x, object->vector.y, object->vector.z);
-			printf("Plane %d has color of %d, %d, %d\n\n", p, object->color.r, object->color.g, object->color.b);
+			printf("Plane %d has color of %d, %d, %d\n", p, object->color.r, object->color.g, object->color.b);
+			printf("Plane %d has hex value of #%x\n\n", p, object->color.hex);
 			p++;
 		}
 		else if (object->id == 'S')
 		{
 			printf("Sphere %d has coordinates of %f, %f, %f\n", s, object->point.x, object->point.y, object->point.z);
 			printf("Sphere %d has diameter of %f\n", s, object->diameter);
-			printf("Sphere %d has color of %d, %d, %d\n\n", s, object->color.r, object->color.g, object->color.b);
+			printf("Sphere %d has color of %d, %d, %d\n", s, object->color.r, object->color.g, object->color.b);
+			printf("Sphere %d has hex value of #%x\n\n", s, object->color.hex);
 			s++;
 		}
 		else if (object->id == 'C')
@@ -83,7 +85,8 @@ static void print_scene(t_scene *scene)
 			printf("Cylinder %d has vector of %f, %f, %f (xyz)\n", c, object->vector.x, object->vector.y, object->vector.z);
 			printf("Cylinder %d has diameter of %f\n", c, object->diameter);
 			printf("Cylinder %d has height of %f\n", c, object->height);
-			printf("Cylinder %d has color of %d, %d, %d\n\n", c, object->color.r, object->color.g, object->color.b);
+			printf("Cylinder %d has color of %d, %d, %d\n", c, object->color.r, object->color.g, object->color.b);
+			printf("Cylinder %d has hex value of #%x\n\n", c, object->color.hex);
 			c++;
 		}
 		object = object->next;
