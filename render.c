@@ -6,13 +6,13 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:38:34 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/26 16:52:35 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:31:10 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, int light_x, int light_y, int light_z, double brightness) 
+uint32_t calculate_lighting(t_scene *scene, t_object *object, float x, float y, float z) 
 {
     // Calculate the normal vector at the point
     float nx = x;
@@ -26,9 +26,9 @@ uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, in
     nz /= length;
 
     // Calculate the light direction vector
-    float lx = light_x - x;
-    float ly = light_y - y;
-    float lz = light_z - z;
+    float lx = scene->light->point.x - x;
+    float ly = scene->light->point.y - y;
+    float lz = scene->light->point.z - z;
 
     // Normalize the light direction vector
     length = sqrt(lx * lx + ly * ly + lz * lz);
@@ -43,14 +43,14 @@ uint32_t calculate_lighting(float x, float y, float z, uint32_t sphere_color, in
     if (dot < 0) dot = 0;
 
     // Extract the RGB components of the sphere color
-    t_int r = (sphere_color >> 8) & 0xFF;
-    t_int g = (sphere_color >> 16) & 0xFF;
-    t_int b = (sphere_color >> 0) & 0xFF;
+    t_int r = (object->color.hex >> 8) & 0xFF;
+    t_int g = (object->color.hex >> 16) & 0xFF;
+    t_int b = (object->color.hex >> 0) & 0xFF;
 
     // Calculate the ambient component
-    float ambient_r = r * brightness * REFLECT;
-    float ambient_g = g * brightness * REFLECT;
-    float ambient_b = b * brightness * REFLECT;
+    float ambient_r = r * scene->ambient->ratio * REFLECT;
+    float ambient_g = g * scene->ambient->ratio * REFLECT;
+    float ambient_b = b * scene->ambient->ratio * REFLECT;
 
     // Apply the direct lighting to each component
     r = (uint8_t)fminf(ambient_r + (r * dot), 255);
@@ -72,7 +72,7 @@ void normalize(float* x, float* y, float* z) {
 }
 
 // Function to render a 3D sphere
-void render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z) {
+void render_sphere(t_object *sphere, t_scene *scene) {
     float sphere_radius = 180.0;
     int sphere_center_x = 400;
     int sphere_center_y = 300;
@@ -83,9 +83,9 @@ void render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, i
     float step_theta = 0.005;
 
     // Compute the normalized camera direction vector
-    float camera_direction_x = camera_x;
-    float camera_direction_y = camera_y;
-    float camera_direction_z = camera_z;
+    float camera_direction_x = scene->camera->vector.x;
+    float camera_direction_y = scene->camera->vector.x;
+    float camera_direction_z = scene->camera->vector.x;
     normalize(&camera_direction_x, &camera_direction_y, &camera_direction_z);
 
     // Convert FOV from degrees to radians
@@ -102,16 +102,16 @@ void render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, i
             float z = sphere_radius * cos(phi);
 
             // Apply camera transformation
-            float transformed_x = x - camera_x;
-            float transformed_y = y - camera_y;
-            float transformed_z = z - camera_z;
+            float transformed_x = x - scene->camera->pov.x;
+            float transformed_y = y - scene->camera->pov.y;
+            float transformed_z = z - scene->camera->pov.z;
 
             // Compute projected coordinates
             float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + sphere_center_x;
             float projected_y = (transformed_y * scale_y * camera_distance) / (camera_distance + transformed_z) + sphere_center_y;
 
             // Pass ambient light parameters to calculate_lighting
-            uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, sphere->color.hex, light_x, light_y, light_z, scene->ambient->ratio);
+            t_int color = calculate_lighting(scene, sphere, transformed_x, transformed_y, transformed_z);
 
             if (projected_x >= 0 && projected_x < scene->img->width && projected_y >= 0 && projected_y < scene->img->height) {
                 mlx_put_pixel(scene->img, (int)projected_x, (int)projected_y, color);
@@ -121,7 +121,7 @@ void render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, i
 }
 
 // Function to render a 3D cylinder with new POV logic
-void render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z) {
+void render_cylinder(t_object *cylinder, t_scene *scene) {
     float cylinder_radius = 100.0;
     float cylinder_height = 200.0;
     int cylinder_center_x = 450;
@@ -133,9 +133,9 @@ void render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_
     float step_y = 0.005; // Adjusted for practicality
 
     // Compute the normalized camera direction vector
-    float camera_direction_x = camera_x;
-    float camera_direction_y = camera_y;
-    float camera_direction_z = camera_z;
+    float camera_direction_x = scene->camera->vector.x;
+    float camera_direction_y = scene->camera->vector.y;
+    float camera_direction_z = scene->camera->vector.z;
     normalize(&camera_direction_x, &camera_direction_y, &camera_direction_z);
 
     // Convert FOV from degrees to radians
@@ -152,16 +152,16 @@ void render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_
             float z = cylinder_radius * sin(theta);
 
             // Apply camera transformation
-            float transformed_x = x - camera_x;
-            float transformed_y = y - camera_y;
-            float transformed_z = z - camera_z;
+            float transformed_x = x - scene->camera->pov.x;
+            float transformed_y = y - scene->camera->pov.y;
+            float transformed_z = z - scene->camera->pov.z;
 
             // Compute projected coordinates
             float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + cylinder_center_x;
             float projected_y = (transformed_y * scale_z * camera_distance) / (camera_distance + transformed_z) + cylinder_center_y;
 
             // Pass ambient light parameters to calculate_lighting
-            uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, cylinder->color.hex, light_x, light_y, light_z, scene->ambient->ratio);
+            t_int color = calculate_lighting(scene, cylinder, transformed_x, transformed_y, transformed_z);
 
             if (projected_x >= 0 && projected_x < scene->img->width && projected_y >= 0 && projected_y < scene->img->height) {
                 mlx_put_pixel(scene->img, (int)projected_x, (int)projected_y, color);
@@ -171,7 +171,7 @@ void render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_
 }
 
 // Function to render a solid 3D cube with colorful faces and lighting
-void render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z) {
+void render_plane(t_object *plane, t_scene *scene) {
     float cube_width = scene->img->width * 3; // Width (X dimension)
     float cube_height = 1.0; // Height (Y dimension) - Adjust this value as needed
     float cube_depth = 500.0; // Depth (Z dimension)
@@ -194,9 +194,9 @@ void render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int
         for (float y = -cube_height; y < cube_height; ++y) {
             for (float z = -cube_depth; z < cube_depth; ++z) {
                 // Apply camera transformation
-                float transformed_x = x - camera_x;
-                float transformed_y = y - camera_y;
-                float transformed_z = z - camera_z;
+                float transformed_x = x - scene->camera->pov.x;
+                float transformed_y = y - scene->camera->pov.y;
+                float transformed_z = z - scene->camera->pov.z;
 
                 // Compute projected coordinates
                 float projected_x = (transformed_x * scale_x * camera_distance) / (camera_distance + transformed_z) + cube_center_x;
@@ -204,7 +204,7 @@ void render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int
 
                 if (projected_x >= 0 && projected_x < scene->img->width && projected_y >= 0 && projected_y < scene->img->height) {
                     // Calculate ambient and diffuse lighting using the provided function
-                    uint32_t color = calculate_lighting(transformed_x, transformed_y, transformed_z, plane->color.hex, light_x, light_y, light_z, scene->ambient->ratio);
+                    t_int color = calculate_lighting(scene, plane, transformed_x, transformed_y, transformed_z);
                     mlx_put_pixel(scene->img, (int)projected_x, (int)projected_y, color);
                 }
             }
@@ -215,22 +215,16 @@ void render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int
 void    render_objects(t_scene *scene)
 {
     t_object    *object;
-	int         light_x = -2500;
-    int         light_y = -50;
-    int         light_z = -100;
-    float       camera_x = 0.0;
-    float       camera_y = -200;
-    float       camera_z = -300;
     
     object = scene->objects;
     while (object)
     {
         if (object->id == 'P')
-            render_plane(object, scene, light_x, light_y, light_z, camera_x, camera_y, camera_z);
+            render_plane(object, scene);
         else if (object->id == 'S')
-            render_sphere(object, scene, light_x, light_y, light_z, camera_x, camera_y, camera_z);
+            render_sphere(object, scene);
         else if (object->id == 'C')
-            render_cylinder(object, scene, light_x, light_y, light_z, camera_x, camera_y, camera_z);
+            render_cylinder(object, scene);
         object = object->next;
     }
 }

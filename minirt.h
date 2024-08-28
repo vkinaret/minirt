@@ -6,7 +6,7 @@
 /*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:39:52 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/08/26 16:43:42 by vkinaret         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:28:57 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ t_object    *init_cylinder_two(t_object *cylinder, char *content);
 int			print_error(int err, int code);
 void		render_objects(t_scene *scene);
 
-t_int		calculate_lighting(float x, float y, float z, t_int sphere_color, int light_x, int light_y, int light_z, double brightness);
-void		render_sphere(t_object *sphere, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
-void		render_cylinder(t_object *cylinder, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
-void		render_plane(t_object *plane, t_scene *scene, int light_x, int light_y, int light_z, float camera_x, float camera_y, float camera_z);
+t_int		calculate_lighting(t_scene *scene, t_object *object, float x, float y, float z);
+void		render_sphere(t_object *sphere, t_scene *scene);
+void		render_cylinder(t_object *cylinder, t_scene *scene);
+void		render_plane(t_object *plane, t_scene *scene);
 
 #endif
