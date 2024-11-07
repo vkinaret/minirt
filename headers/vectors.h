@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vectors.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 20:42:41 by vkinaret          #+#    #+#             */
+/*   Updated: 2024/11/07 20:43:31 by vkinaret         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTORS_H
 # define VECTORS_H
 
 # include <math.h>
 
-typedef struct	s_p3
+typedef struct s_p3
 {
 	double		x;
 	double		y;
