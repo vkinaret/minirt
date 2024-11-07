@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   anti_alias.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 21:09:32 by vkinaret          #+#    #+#             */
+/*   Updated: 2024/11/07 21:09:33 by vkinaret         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static int compute_first_corner(int *initial_colors, int center_color, t_rss sampling_info, t_wrapper *wrapper) {

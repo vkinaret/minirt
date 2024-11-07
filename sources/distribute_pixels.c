@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   distribute_pixels.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 21:09:12 by vkinaret          #+#    #+#             */
+/*   Updated: 2024/11/07 21:09:13 by vkinaret         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static int *compute_first_column_sample(int *edge_colors, int last_colors[2], t_rss sampling_info, t_wrapper *wrapper) {

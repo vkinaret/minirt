@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 21:05:45 by vkinaret          #+#    #+#             */
+/*   Updated: 2024/11/07 21:05:47 by vkinaret         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-
-void		try_all_intersections(t_v3 ray, t_figures *lst,
-					t_figures *closest_figure, double *closest_intersection)
+void	try_all_intersections(t_v3 ray, t_figures *lst, t_figures *closest_figure, double *closest_intersection)
 {
 	double dist;
 
