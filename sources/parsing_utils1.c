@@ -3,35 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 21:06:47 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/11/07 21:06:49 by vkinaret         ###   ########.fr       */
+/*   Created: 2024/11/08 16:44:51 by stuna             #+#    #+#             */
+/*   Updated: 2024/11/12 15:57:00 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-char		*readfile(char *str, int fd)
+char	*readfile(char *str, int fd)
 {
 	char	buf[BUFSIZE + 1];
 	char	*ptr;
 	int		ret;
 
-	while ((ret = read(fd, buf, BUFSIZE)) > 0)
+	ret = read(fd, buf, BUFSIZE);
+	while (ret > 0)
 	{
 		ptr = str;
 		buf[ret] = '\0';
-		if (!(str = ft_strjoin(str, buf)))
+		str = ft_strjoin(str, buf);
+		if (!str)
 			return (NULL);
 		free(ptr);
+		ret = read(fd, buf, BUFSIZE);
 	}
 	return (str);
 }
 
-int			stoi(char **str)
+int	stoi(char **str)
 {
-	int i;
+	int	i;
 	int	neg;
 
 	i = 0;
@@ -44,7 +47,7 @@ int			stoi(char **str)
 	return (i * neg);
 }
 
-double		stof(char **str)
+double	stof(char **str)
 {
 	int		w;
 	double	d;
@@ -68,7 +71,7 @@ double		stof(char **str)
 	return (d * neg);
 }
 
-void		ft_addnewlst_back(t_figures **alst)
+void	ft_addnewlst_back(t_figures **alst)
 {
 	t_figures	*begin;
 	t_figures	*elem;

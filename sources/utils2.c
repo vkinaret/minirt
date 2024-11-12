@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: stuna <stuna@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 21:05:45 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/11/07 21:05:47 by vkinaret         ###   ########.fr       */
+/*   Created: 2024/11/08 16:57:10 by stuna             #+#    #+#             */
+/*   Updated: 2024/11/08 16:57:55 by stuna            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	try_all_intersections(t_v3 ray, t_figures *lst, t_figures *closest_figure, double *closest_intersection)
+void	try_all_intersections(t_v3 ray, t_figures *lst,
+					t_figures *closest_figure, double *closest_intersection)
 {
-	double dist;
+	double	dist;
 
 	while (lst)
 	{
@@ -33,7 +34,7 @@ void	try_all_intersections(t_v3 ray, t_figures *lst, t_figures *closest_figure, 
 	}
 }
 
-int			average(int color1, int color2)
+int	average(int color1, int color2)
 {
 	int		average[3];
 	int		mask;
@@ -58,7 +59,7 @@ int			average(int color1, int color2)
 	return ((average[0] << 16) | (average[1] << 8) | average[2]);
 }
 
-int			average_supersampled_color(int *color)
+int	average_supersampled_color(int *color)
 {
 	int		ss_color[3];
 	int		mask;

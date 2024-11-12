@@ -9,11 +9,13 @@ LIB	= libraries/
 FILES	=	main.c \
 			parser.c \
 			parse_things.c \
+			parse_objects.c \
 			multithreading.c \
 			camera.c \
 			intersect_sphere.c \
 			intersect_plane.c \
 			intersect_cylinder.c \
+			intersect_utils.c \
 			lightning.c \
 			distribute_pixels.c \
 			anti_alias.c \
@@ -21,14 +23,16 @@ FILES	=	main.c \
 			error_handling.c \
 			parsing_utils1.c \
 			parsing_utils2.c \
+			parsing_utils3.c \
 			utils1.c \
 			utils2.c \
+			utils3.c \
 
 SRCS	= $(addprefix $(SRCDIR), $(FILES))
 
 OBJS	= ${SRCS:.c=.o}
 
-CC		= gcc -g
+CC		= cc -g
 
 RM		= rm -f
 

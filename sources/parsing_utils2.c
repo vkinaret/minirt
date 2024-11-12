@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: vkinaret <vkinaret@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 21:06:37 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/11/07 21:06:39 by vkinaret         ###   ########.fr       */
+/*   Created: 2024/11/08 16:47:41 by stuna             #+#    #+#             */
+/*   Updated: 2024/11/12 16:06:02 by vkinaret         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*ft_strcat(char *dest, char *src)
 {
-	int i1;
-	int i2;
+	int	i1;
+	int	i2;
 
 	i1 = 0;
 	i2 = 0;
@@ -49,8 +49,7 @@ static char	*ft_strncpy(char *dest, char *src, unsigned int n)
 	return (dest);
 }
 
-
-void		in_range(double nb, double min, double max, char *function)
+void	in_range(double nb, double min, double max, char *function)
 {
 	char	error_message[100];
 
@@ -62,50 +61,16 @@ void		in_range(double nb, double min, double max, char *function)
 	}
 }
 
-void		next(char **str)
+void	next(char **str)
 {
-	while (**str == 32 || **str == 9)
+	while (**str == 32)
 		(*str)++;
 }
 
-void		comma(char **str)
+void	comma(char **str)
 {
 	if (**str != ',')
 		scene_error("parameters bad formatted\n");
-	(*str)++;
-}
-
-t_p3		parse_p3(char **str)
-{
-	t_p3	p;
-
-	p.x = stof(str);
-	comma(str);
-	p.y = stof(str);
-	comma(str);
-	p.z = stof(str);
-	next(str);
-	return (p);
-}
-
-int			parse_color(char **str)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	r = 0;
-	g = 0;
-	b = 0;
-	r |= stoi(str);
-	in_range(r, 0, 255, "colors must be in range [0, 255],");
-	r <<= 16;
-	comma(str);
-	g |= stoi(str);
-	in_range(g, 0, 255, "colors must be in range [0, 255],");
-	g <<= 8;
-	comma(str);
-	b |= stoi(str);
-	in_range(b, 0, 255, "colors must be in range [0, 255],");
-	return (r | g | b);
+	while (**str == ',')
+		(*str)++;
 }

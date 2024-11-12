@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   multithreading.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkinaret <vkinaret@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: stuna <stuna@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 21:07:33 by vkinaret          #+#    #+#             */
-/*   Updated: 2024/11/07 21:07:34 by vkinaret         ###   ########.fr       */
+/*   Created: 2024/11/08 16:32:00 by stuna             #+#    #+#             */
+/*   Updated: 2024/11/08 16:32:21 by stuna            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void		*render_thread(void *ptr)
+static void	*render_thread(void *ptr)
 {
 	t_wrapper	*w;
 
@@ -25,7 +25,7 @@ static void		*render_thread(void *ptr)
 	return (NULL);
 }
 
-void			multithreaded_render(t_wrapper wrapper[NUM_THREADS])
+void	multithreaded_render(t_wrapper wrapper[NUM_THREADS])
 {
 	pthread_t	threads[NUM_THREADS];
 	int			i;
@@ -41,7 +41,7 @@ void			multithreaded_render(t_wrapper wrapper[NUM_THREADS])
 		pthread_join(threads[i++], NULL);
 }
 
-void			wrapp_data(t_minilibx mlx, t_scene data, t_figures *lst,
+void	wrapp_data(t_minilibx mlx, t_scene data, t_figures *lst,
 														t_wrapper *wrapper)
 {
 	int	i;
